@@ -7,25 +7,39 @@
 
 namespace please {
 template <typename T>
+class Style {
+ public:
+  Style(T fg = style::Color::DEFAULT,
+        T bg = style::Color::DEFAULT,
+        std::vector<style::Decoration> decorations = {})
+      : fg_(fg), bg_(bg), decorations_(decorations) {}
+
+ private:
+  T fg_;
+  T bg_;
+  std::vector<style::Decoration> decorations_;
+};
+
+template <typename T>
 class Table {
  public:
   Table(std::string title, std::vector<Task> tasks = {},
-        style::Style<T> title_style = {}, style::Style<T> header_style = {},
-        style::Style<T> text_style = {})
+        Style<T> title_style = {}, Style<T> header_style = {},
+        Style<T> text_style = {})
       : title_(title),
         tasks_(tasks),
         title_style_(title_style),
         header_style_(header_style),
-        text_style_(text_style_) {}
+        text_style_(text_style) {}
 
   void AddTask(Task task) { tasks_.push_back(task); }
   std::vector<Task> tasks() { return tasks_; };
 
  private:
   std::string title_;
-  style::Style<T> title_style_;
-  style::Style<T> header_style_;
-  style::Style<T> text_style_;
+  Style<T> title_style_;
+  Style<T> header_style_;
+  Style<T> text_style_;
 
   std::vector<Task> tasks_;
 };

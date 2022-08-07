@@ -15,24 +15,25 @@ namespace please {
 static std::string CurrentTime(const char* format) {
   std::time_t t = std::time(0);
   char buf[80];
-  struct tm time_struct;
-  localtime_s(&time_struct, &t);
+  struct tm time_struct = *localtime(&t);
   strftime(buf, sizeof(buf), format, &time_struct);
   return buf;
 }
 
 void Show() {
+  using namespace style;
   auto date_now = CurrentTime();
   auto user_name = "Civitasv";
 
-  std::cout << style::Color::FG_CYAN << "Hello " << user_name << "! "
+  std::cout << Background(Color::BLUE) << "Hello " << user_name << "! "
             << "It's " << date_now << '\n'
-            << style::Reset::RESET_ALL;
+            << Background(Color::DEFAULT);
 
   std::cout << Tasks() << '\n';
 }
 
 std::string Tasks() {
+  using namespace style;
   std::stringstream out;
   auto table = Table<style::Color>("tasks");
   table.AddTask(Task("A task"));
@@ -42,9 +43,12 @@ std::string Tasks() {
 
   for (auto& task : table.tasks()) {
     if (task.status() == TaskStatus::DONE) {
-      out << style::Color::FG_GREEN << task.task() << style::Reset::RESET_FG << " NOT DONE\n";
+      out << Foreground(Color::GREEN) << task.task()
+          << " ❤️ ↑ \u2654\n"
+          << Foreground(Color::DEFAULT);
     } else {
-      out << style::Color::FG_RED << task.task() << style::Reset::RESET_FG << " DONE\n";
+      out << Foreground(Color::RED) << task.task()
+          << Foreground(Color::DEFAULT) << " DONE\n";
     }
   }
   return out.str();

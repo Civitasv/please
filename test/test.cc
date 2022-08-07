@@ -1,27 +1,28 @@
 #include <fcntl.h>
-#include <io.h>
 #include <stdio.h>
 
 #include <iostream>
 #include <vector>
 
-#include "../include/color.h"
-#include "../include/please.h"
+#include "include/color.h"
+#include "include/please.h"
 
 void test_style();
 void test_please();
 
 int main(int argc, const char **argv) {
-  test_please();
+  // test_please();
+  test_style();
   return 0;
 }
 
 void test_style() {
   using namespace please::style;
-  std::cout << "RGB: " << RGB(1, 2, 3) << "GIVE ME SOMETHING";
-  std::cout << Decoration::REVERSED << Decoration::ITALIC << Decoration::BOLD
-            << Color::FG_CYAN << Color::BG_WHITE << "TEST" << Reset::RESET_ALL
-            << "NORMAL";
+  std::cout << "RGB: " << Foreground(RGB(1, 2, 3)) << "GIVE ME SOMETHING"
+            << Foreground(Color::DEFAULT) << '\n';
+  std::cout << "Normal" << '\n';
+
+  std::cout << Decoration(Attribute::BOLD) << "Bold" << '\n';
 }
 
 void test_please() {
