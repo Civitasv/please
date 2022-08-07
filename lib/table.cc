@@ -5,7 +5,7 @@
 namespace please {
 Table::Table(std::vector<Text> headers) : headers{headers} {
   for (auto &column : headers) {
-    widths.push_back(column.text().size());
+    widths.push_back(column.text().length());
   }
 }
 
@@ -42,7 +42,7 @@ bool Table::AddRow(std::vector<Text> row) {
   auto r = std::vector<Text>{row};
   rows.push_back(r);
   for (unsigned int i = 0; i < r.size(); ++i) {
-    widths[i] = std::max(r[i].text().size(), widths[i]);
+    widths[i] = std::max(r[i].text().length(), widths[i]);
   }
   return true;
 }
@@ -92,7 +92,7 @@ std::string Table::GetHeaders(Headers headers) const {
   for (unsigned int i = 0; i < headers.size(); ++i) {
     Text text = headers[i];
     line << SPACE_CHARACTER * padding << text
-         << SPACE_CHARACTER * (widths[i] - text.text().size())
+         << SPACE_CHARACTER * (widths[i] - text.text().length())
          << SPACE_CHARACTER * padding
          << Text().text(symbol.vertical).style(style.vertical);
   }
@@ -107,7 +107,7 @@ std::string Table::GetRows(Rows rows) const {
     for (unsigned int j = 0; j < row.size(); ++j) {
       Text text = row[j];
       line << SPACE_CHARACTER * padding << text
-           << SPACE_CHARACTER * (widths[j] - text.text().size())
+           << SPACE_CHARACTER * (widths[j] - text.text().length())
            << SPACE_CHARACTER * padding
            << Text().text(symbol.vertical).style(style.vertical);
     }

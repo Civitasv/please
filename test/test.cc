@@ -12,11 +12,13 @@
 void test_style();
 void test_please();
 void test_term();
+void test_unicode();
 
 int main(int argc, const char **argv) {
   test_please();
   // test_style();
   // test_term();
+  // test_unicode();
   return 0;
 }
 
@@ -31,21 +33,16 @@ void test_style() {
 
 void test_please() {
   using namespace please;
-  // Show();
-  Table table = {{{"Country"}, {"Capital"}, {"Population"},
-                  {"Area"}, {"Currency"}}};
-  table.SetPadding(1);
-  table.SetLineSymbol(1);
-
-  table += {{"Germany",Style().fg(Foreground::From(Color::CYAN))},
-            {"Berlin"}, {"82,800,000"}, {"357,168 km2"}, {"Euro"}};
-  // table.Sort(true);
-
-  std::cout << table;
+  Show();
 }
 
 void test_term() {
   using namespace please;
   std::cout << "Terminal size: " << TermSize().first << " ; "
             << TermSize().second << '\n';
+}
+
+void test_unicode() {
+  std::string a = "👍";
+  std::cout << a;
 }
