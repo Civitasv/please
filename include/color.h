@@ -24,6 +24,7 @@ enum class Attribute {
   REVERSED = 7,
   CONCEAL = 8,
   CROSSED = 9,
+
   NO_BOLD = 22,
   NO_DIM = 22,
   NO_ITALIC = 23,
@@ -36,14 +37,23 @@ enum class Attribute {
 
 enum class Color {
   BLACK = 0,
-  RED = 1,
-  GREEN = 2,
-  YELLOW = 3,
-  BLUE = 4,
-  PURPLE = 5,
-  CYAN = 6,
-  WHITE = 7,
-  DEFAULT = 9,
+  DARK_GREY = 8,
+  RED = 9,
+  DARK_RED = 1,
+  GREEN = 10,
+  DARK_GREEN = 2,
+  YELLOW = 11,
+  DARK_YELLOW = 3,
+  BLUE = 12,
+  DARK_BLUE = 4,
+  PURPLE = 13,
+  DARK_PURPLE = 5,
+  CYAN = 14,
+  DARK_CYAN = 6,
+  WHITE = 15,
+  GREY = 7,
+
+  RESET,
 };
 
 class Color256 {
@@ -63,8 +73,11 @@ class RGB {
 };
 
 inline std::string Background(Color color) {
+  if (color == Color::RESET) {
+    return "\x1b[49m";
+  }
   std::stringstream os;
-  os << "\x1b[4" << static_cast<int>(color) << "m";
+  os << "\x1b[48;5;" << static_cast<int>(color) << "m";
   return os.str();
 }
 
@@ -81,8 +94,11 @@ inline std::string Background(Color256 color) {
 }
 
 inline std::string Foreground(Color color) {
+  if (color == Color::RESET) {
+    return "\x1b[39m";
+  }
   std::stringstream os;
-  os << "\x1b[3" << static_cast<int>(color) << "m";
+  os << "\x1b[38;5;" << static_cast<int>(color) << "m";
   return os.str();
 }
 

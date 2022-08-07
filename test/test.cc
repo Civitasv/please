@@ -19,7 +19,7 @@ int main(int argc, const char **argv) {
 void test_style() {
   using namespace please::style;
   std::cout << "RGB: " << Foreground(RGB(1, 2, 3)) << "GIVE ME SOMETHING"
-            << Foreground(Color::DEFAULT) << '\n';
+            << Foreground(Color::RESET) << '\n';
   std::cout << "Normal" << '\n';
 
   std::cout << Decoration(Attribute::BOLD) << "Bold" << '\n';

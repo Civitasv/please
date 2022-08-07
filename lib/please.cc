@@ -27,7 +27,7 @@ void Show() {
 
   std::cout << Background(Color::BLUE) << "Hello " << user_name << "! "
             << "It's " << date_now << '\n'
-            << Background(Color::DEFAULT);
+            << Background(Color::RESET);
 
   std::cout << Tasks() << '\n';
 }
@@ -45,10 +45,10 @@ std::string Tasks() {
     if (task.status() == TaskStatus::DONE) {
       out << Foreground(Color::GREEN) << task.task()
           << " ❤️ ↑ \u2654\n"
-          << Foreground(Color::DEFAULT);
+          << Foreground(Color::RESET);
     } else {
       out << Foreground(Color::RED) << task.task()
-          << Foreground(Color::DEFAULT) << " DONE\n";
+          << Foreground(Color::RESET) << " DONE\n";
     }
   }
   return out.str();

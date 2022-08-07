@@ -9,8 +9,8 @@ namespace please {
 template <typename T>
 class Style {
  public:
-  Style(T fg = style::Color::DEFAULT,
-        T bg = style::Color::DEFAULT,
+  Style(T fg = style::Color::RESET,
+        T bg = style::Color::RESET,
         std::vector<style::Decoration> decorations = {})
       : fg_(fg), bg_(bg), decorations_(decorations) {}
 
