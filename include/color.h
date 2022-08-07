@@ -58,73 +58,113 @@ enum class Color {
 
 class Color256 {
  public:
-  Color256(int id) : id(id) {}
+  Color256(int id) : id_(id) {}
+  int id() { return id_; }
 
-  int id;
+ private:
+  int id_;
 };
 
 class RGB {
  public:
-  RGB(int r, int g, int b) : r(r), g(g), b(b) {}
+  RGB(int r, int g, int b) : r_(r), g_(g), b_(b) {}
+  int r() { return r_; }
+  int g() { return g_; }
+  int b() { return b_; }
 
-  int r;
-  int g;
-  int b;
+ private:
+  int r_;
+  int g_;
+  int b_;
 };
-
-inline std::string Background(Color color) {
-  if (color == Color::RESET) {
-    return "\x1b[49m";
-  }
-  std::stringstream os;
-  os << "\x1b[48;5;" << static_cast<int>(color) << "m";
-  return os.str();
-}
-
-inline std::string Background(RGB color) {
-  std::stringstream os;
-  os << "\x1b[48;2;" << color.r << ";" << color.g << ";" << color.b << "m";
-  return os.str();
-}
-
-inline std::string Background(Color256 color) {
-  std::stringstream os;
-  os << "\x1b[48;5;" << color.id << "m";
-  return os.str();
-}
-
-inline std::string Foreground(Color color) {
-  if (color == Color::RESET) {
-    return "\x1b[39m";
-  }
-  std::stringstream os;
-  os << "\x1b[38;5;" << static_cast<int>(color) << "m";
-  return os.str();
-}
-
-inline std::string Foreground(RGB color) {
-  std::stringstream os;
-  os << "\x1b[38;2;" << color.r << ";" << color.g << ";" << color.b << "m";
-  return os.str();
-}
-
-inline std::string Foreground(Color256 color) {
-  std::stringstream os;
-  os << "\x1b[38;5;" << color.id << "m";
-  return os.str();
-}
 
 class Decoration {
  public:
-  Decoration(Attribute attr) : attr_(attr) {}
-
+  static Decoration From(Attribute attr) { return Decoration(attr); }
   friend std::ostream& operator<<(std::ostream& os, const Decoration& val) {
     os << "\x1b[" << static_cast<int>(val.attr_) << "m";
     return os;
   }
 
  private:
+  Decoration(Attribute attr) : attr_(attr) {}
   Attribute attr_;
+};
+
+class Foreground {
+ public:
+  template <typename T>
+  static Foreground From(T color) {
+    return Foreground(Resolve(color));
+  }
+
+  friend std::ostream& operator<<(std::ostream& os, const Foreground& val) {
+    os << val.color_;
+    return os;
+  }
+
+ private:
+  Foreground(std::string color) : color_(color) {}
+  std::string color_;
+
+  static std::string Resolve(Color color) {
+    if (color == Color::RESET) {
+      return "\x1b[39m";
+    }
+    std::stringstream os;
+    os << "\x1b[38;5;" << static_cast<int>(color) << "m";
+    return os.str();
+  }
+
+  static std::string Resolve(RGB color) {
+    std::stringstream os;
+    os << "\x1b[38;2;" << color.r() << ";" << color.g() << ";" << color.b() << "m";
+    return os.str();
+  }
+
+  static std::string Resolve(Color256 color) {
+    std::stringstream os;
+    os << "\x1b[38;5;" << color.id() << "m";
+    return os.str();
+  }
+};
+
+class Background {
+ public:
+  template <typename T>
+  static Background From(T color) {
+    return Background(Resolve(color));
+  }
+
+  friend std::ostream& operator<<(std::ostream& os, const Background& val) {
+    os << val.color_;
+    return os;
+  }
+
+ private:
+  Background(std::string color) : color_(color) {}
+  std::string color_;
+
+  static std::string Resolve(Color color) {
+    if (color == Color::RESET) {
+      return "\x1b[49m";
+    }
+    std::stringstream os;
+    os << "\x1b[48;5;" << static_cast<int>(color) << "m";
+    return os.str();
+  }
+
+  static std::string Resolve(RGB color) {
+    std::stringstream os;
+    os << "\x1b[48;2;" << color.r() << ";" << color.g() << ";" << color.b() << "m";
+    return os.str();
+  }
+
+  static std::string Resolve(Color256 color) {
+    std::stringstream os;
+    os << "\x1b[48;5;" << color.id() << "m";
+    return os.str();
+  }
 };
 }  // namespace style
 }  // namespace please
