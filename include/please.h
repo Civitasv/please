@@ -2,8 +2,10 @@
 #define INCLUDE_PLEASE_H_
 
 #include <string>
+#include "text.h"
 
 namespace please {
+static std::string CenterText(Text text);
 
 /// CurrentTime
 static std::string CurrentTime(const char* format = "%Y-%m-%d");
@@ -11,7 +13,7 @@ static std::string CurrentTime(const char* format = "%Y-%m-%d");
 /// please
 void Show();
 
-std::string Tasks();
+void Tasks();
 
 /// please add
 

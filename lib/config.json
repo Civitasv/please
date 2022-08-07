@@ -1,0 +1,41 @@
+{
+    "tasks": [
+        {
+            "text": "A task",
+            "status": "DONE",
+            "icon": "✅"
+        }
+    ],
+    "style": {
+        "intro": {
+            "fg": "Color.BLACK",
+            "bg": "Color.WHITE",
+            "decorations": [
+                ""
+            ]
+        },
+        "header": {
+            "fg": "Color.BLACK",
+            "bg": "Color.WHITE",
+            "decorations": [
+                ""
+            ]
+        },
+        "task": {
+            "DONE": {
+                "fg": "Color.BLACK",
+                "bg": "Color.WHITE",
+                "decorations": [
+                    ""
+                ]
+            },
+            "NOT DONE": {
+                "fg": "Color.BLACK",
+                "bg": "Color.WHITE",
+                "decorations": [
+                    ""
+                ]
+            }
+        }
+    }
+}

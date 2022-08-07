@@ -12,6 +12,30 @@
 #include "../include/task.h"
 
 namespace please {
+static std::string CenterText(Text text) {
+  std::stringstream ss;
+  // 1. get text
+  std::string str = text.text();
+  // get size
+  size_t size = str.size();
+  // get terminal size
+  auto term_size = TermSize();
+  size_t width = term_size.second;
+  size_t height = term_size.first;
+
+  // whitespace
+  size_t whitespaces = (width - size) / 2;
+  for (int i = 0; i < whitespaces; i++) {
+    ss << " ";
+  }
+  ss << text;
+  for (int i = 0; i < whitespaces; i++) {
+    ss << " ";
+  }
+  ss << '\n';
+  return ss.str();
+}
+
 static std::string CurrentTime(const char* format) {
   std::time_t t = std::time(0);
   char buf[80];
@@ -21,36 +45,31 @@ static std::string CurrentTime(const char* format) {
 }
 
 void Show() {
-  using namespace style;
   auto date_now = CurrentTime();
   auto user_name = "Civitasv";
+  std::stringstream header_str;
 
-  std::cout << Background(Color::BLUE) << "Hello " << user_name << "! "
-            << "It's " << date_now << '\n'
-            << Background(Color::RESET);
+  header_str << "Hello " << user_name << "! "
+             << "It's " << date_now;
+  auto header = Text()
+                    .text(header_str.str())
+                    .style(Style().fg(Foreground::From(Color::WHITE)));
 
-  std::cout << Tasks() << '\n';
+  std::cout << CenterText(header);
+
+  Tasks();
 }
 
-std::string Tasks() {
-  using namespace style;
+void Tasks() {
   std::stringstream out;
-  auto table = Table<style::Color>("tasks");
-  table.AddTask(Task("A task"));
-  table.AddTask(Task("B task"));
-  table.AddTask(Task("C task"));
-  table.AddTask(Task("D task"));
+  auto header_style = Style().fg(Foreground::From(Color::GREY));
 
-  for (auto& task : table.tasks()) {
-    if (task.status() == TaskStatus::DONE) {
-      out << Foreground(Color::GREEN) << task.task()
-          << " ❤️ ↑ \u2654\n"
-          << Foreground(Color::RESET);
-    } else {
-      out << Foreground(Color::RED) << task.task()
-          << Foreground(Color::RESET) << " DONE\n";
-    }
-  }
-  return out.str();
+  // auto table = Table().title("TASKS");
+  // table.AddTask(Task("A task", "NOT DONE"));
+  // table.AddTask(Task("B task"));
+  // table.AddTask(Task("C task"));
+  // table.AddTask(Task("D task"));
+
+  // std::cout << table;
 }
 }  // namespace please

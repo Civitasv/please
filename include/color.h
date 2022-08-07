@@ -12,29 +12,6 @@
 /// https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797.
 /// https://talyian.github.io/ansicolors/
 namespace please {
-namespace style {
-enum class Attribute {
-  RESET = 0,
-  BOLD = 1,
-  DIM = 2,
-  ITALIC = 3,
-  UNDERLINE = 4,
-  SLOWBLINK = 5,
-  RAPIDBLINK = 6,
-  REVERSED = 7,
-  CONCEAL = 8,
-  CROSSED = 9,
-
-  NO_BOLD = 22,
-  NO_DIM = 22,
-  NO_ITALIC = 23,
-  NO_UNDERLINE = 24,
-  NO_BLINK = 25,
-  NO_REVERSED = 27,
-  NO_CONCEAL = 28,
-  NO_CROSSED = 29
-};
-
 enum class Color {
   BLACK = 0,
   DARK_GREY = 8,
@@ -80,6 +57,28 @@ class RGB {
 
 class Decoration {
  public:
+  enum Attribute {
+    RESET = 0,
+    BOLD = 1,
+    DIM = 2,
+    ITALIC = 3,
+    UNDERLINE = 4,
+    SLOWBLINK = 5,
+    RAPIDBLINK = 6,
+    REVERSED = 7,
+    CONCEAL = 8,
+    CROSSED = 9,
+
+    NO_BOLD = 22,
+    NO_DIM = 22,
+    NO_ITALIC = 23,
+    NO_UNDERLINE = 24,
+    NO_BLINK = 25,
+    NO_REVERSED = 27,
+    NO_CONCEAL = 28,
+    NO_CROSSED = 29
+  };
+
   static Decoration From(Attribute attr) { return Decoration(attr); }
   friend std::ostream& operator<<(std::ostream& os, const Decoration& val) {
     os << "\x1b[" << static_cast<int>(val.attr_) << "m";
@@ -118,7 +117,8 @@ class Foreground {
 
   static std::string Resolve(RGB color) {
     std::stringstream os;
-    os << "\x1b[38;2;" << color.r() << ";" << color.g() << ";" << color.b() << "m";
+    os << "\x1b[38;2;" << color.r() << ";" << color.g() << ";" << color.b()
+       << "m";
     return os.str();
   }
 
@@ -156,7 +156,8 @@ class Background {
 
   static std::string Resolve(RGB color) {
     std::stringstream os;
-    os << "\x1b[48;2;" << color.r() << ";" << color.g() << ";" << color.b() << "m";
+    os << "\x1b[48;2;" << color.r() << ";" << color.g() << ";" << color.b()
+       << "m";
     return os.str();
   }
 
@@ -166,6 +167,5 @@ class Background {
     return os.str();
   }
 };
-}  // namespace style
 }  // namespace please
 #endif
