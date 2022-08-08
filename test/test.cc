@@ -43,7 +43,7 @@ void test_please() {
   std::string path(pw->pw_dir);
   auto data = FromFile(path + "/.config/please/config.json",
                        path + "/.config/please/tasks.json");
-  Show(data.first, data.second);
+  Show(data);
 }
 
 void test_term() {
@@ -60,7 +60,7 @@ void test_unicode() {
 void test_config() {
   using namespace please;
   auto data = FromFile("config.json", "tasks.json");
-  for (auto &item : data.first) {
+  for (auto &item : data.tasks) {
     std::cout << item;
   }
 

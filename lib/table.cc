@@ -88,13 +88,13 @@ std::string Table::GetLine(RowType rowType, Style rowStyle) const {
 
 std::string Table::GetHeaders(Headers headers) const {
   std::stringstream line;
-  line << Text().text(symbol.vertical).style(style.vertical);
+  line << Text().text(symbol.vertical).style(style.header_vertical);
   for (unsigned int i = 0; i < headers.size(); ++i) {
     Text text = headers[i];
     line << SPACE_CHARACTER * padding << text
          << SPACE_CHARACTER * (widths[i] - text.text().length())
          << SPACE_CHARACTER * padding
-         << Text().text(symbol.vertical).style(style.vertical);
+         << Text().text(symbol.vertical).style(style.header_vertical);
   }
   line << "\n";
   return line.str();
@@ -103,13 +103,13 @@ std::string Table::GetHeaders(Headers headers) const {
 std::string Table::GetRows(Rows rows) const {
   std::stringstream line;
   for (auto &row : rows) {
-    line << Text().text(symbol.vertical).style(style.vertical);
+    line << Text().text(symbol.vertical).style(style.content_vertical);
     for (unsigned int j = 0; j < row.size(); ++j) {
       Text text = row[j];
       line << SPACE_CHARACTER * padding << text
            << SPACE_CHARACTER * (widths[j] - text.text().length())
            << SPACE_CHARACTER * padding
-           << Text().text(symbol.vertical).style(style.vertical);
+           << Text().text(symbol.vertical).style(style.content_vertical);
     }
     line << "\n";
   }

@@ -46,14 +46,15 @@ static std::string CurrentTime(const char* format) {
 }
 
 /// @param type: 0: all, 1: only undone, 2: only done
-void Show(std::vector<Task> tasks, std::map<std::string, Style> styles,
-          int type) {
+void Show(Config config, int type) {
   // 1. Print intro
   auto date_now = CurrentTime();
-  auto user_name = "Civitasv";
   std::stringstream header_str;
+  auto styles = config.style;
+  auto tasks = config.tasks;
+  auto name = config.name;
 
-  header_str << "Hello " << user_name << "! "
+  header_str << "Hello " << name << "! "
              << "It's " << date_now;
   auto header = Text().text(header_str.str()).style(styles["intro"]);
 

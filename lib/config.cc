@@ -9,10 +9,11 @@
 namespace please {
 using json = nlohmann::json;
 
-std::pair<std::vector<Task>, std::map<std::string, Style>> FromFile(
-    std::string config_file, std::string tasks_file) {
+Config FromFile(std::string config_file, std::string tasks_file) {
   auto config_json = json::parse(std::ifstream(config_file));
   auto tasks_json = json::parse(std::ifstream(tasks_file));
+
+  std::string name = config_json["name"];
 
   std::vector<Task> tasks;
   std::map<std::string, Style> styles;
@@ -34,7 +35,7 @@ std::pair<std::vector<Task>, std::map<std::string, Style>> FromFile(
   Style header_style = Resolve(config_json["header"]);
   styles["intro"] = intro_style;
   styles["header"] = header_style;
-  return {tasks, styles};
+  return {name, styles, tasks};
 }
 
 void toFile(std::vector<Task> tasks, std::string tasks_file) {

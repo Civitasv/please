@@ -28,8 +28,8 @@ class Table {
   };
 
   struct OutlineStyle {
-    Style horizontal;
-    Style vertical;
+    Style header_vertical;
+    Style content_vertical;
     Style top;
     Style middle;
     Style bottom;
@@ -126,10 +126,10 @@ class Table {
 
   /// Current table style
   OutlineStyle style = {
+      Style().fg(Foreground::From(Color::CYAN)),
       Style().fg(Foreground::From(Color::RED)),
-      Style().fg(Foreground::From(Color::RED)),
-      Style().fg(Foreground::From(Color::RED)),
-      Style().fg(Foreground::From(Color::RED)),
+      Style().fg(Foreground::From(Color::DARK_RED)),
+      Style().fg(Foreground::From(Color::DARK_RED)),
       Style().fg(Foreground::From(Color::RED)),
   };
 

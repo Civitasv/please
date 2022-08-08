@@ -14,50 +14,69 @@ int main(int argc, char* argv[]) {
   auto tasks_path = path + "/.config/please/tasks.json";
   auto data = FromFile(config_path, tasks_path);
 
-  auto tasks = data.first;
-  auto styles = data.second;
   if (argc == 1) {
-    Show(tasks, styles);
+    Show(data);
     return 0;
   }
+
   std::string command = argv[1];
   if (command == "show") {
-    if (argc == 3) {
+    if (argc == 2) {
+      Show(data);
+    } else if (argc == 3) {
       std::string next = argv[2];
       if (next == "all") {
-        Show(tasks, styles);
+        Show(data);
       } else if (next == "done") {
-        Show(tasks, styles, 1);
+        Show(data, 1);
       } else if (next == "undone") {
-        Show(tasks, styles, 2);
+        Show(data, 2);
       }
     } else {
-      Show(tasks, styles);
+      std::cerr << "Invalid parameters" << std::endl;
     }
   } else if (command == "add") {
-    std::string item = argv[2];
-    auto style = styles["TASK-NOT DONE"];
-    tasks.push_back(Task(tasks.size() + 1, item, "NOT DONE"));
-    Show(tasks, styles);
+    if (argc == 3) {
+      std::string item = argv[2];
+      auto style = data.style["TASK-NOT DONE"];
+      data.tasks.push_back(Task(data.tasks.size() + 1, item, "NOT DONE"));
+      Show(data);
 
-    toFile(tasks, tasks_path);
+      toFile(data.tasks, tasks_path);
+    } else {
+      std::cerr << "Invalid parameters" << std::endl;
+    }
   } else if (command == "done") {
-    size_t index = std::stoi(argv[2]);
-    tasks[index - 1].status("DONE");
-    Show(tasks, styles);
+    if (argc == 3) {
+      size_t index = std::stoi(argv[2]);
+      data.tasks[index - 1].status("DONE");
+      Show(data);
 
-    toFile(tasks, tasks_path);
+      toFile(data.tasks, tasks_path);
+    } else {
+      std::cerr << "Invalid parameters" << std::endl;
+    }
   } else if (command == "undone") {
-    size_t index = std::stoi(argv[2]);
-    tasks[index - 1].status("UNDONE");
-    Show(tasks, styles);
+    if (argc == 3) {
+      size_t index = std::stoi(argv[2]);
+      data.tasks[index - 1].status("UNDONE");
+      Show(data);
 
-    toFile(tasks, tasks_path);
+      toFile(data.tasks, tasks_path);
+    } else {
+      std::cerr << "Invalid parameters" << std::endl;
+    }
   } else if (command == "delete") {
-    size_t index = std::stoi(argv[2]);
-    tasks.erase(tasks.begin() + index - 1);
-    Show(tasks, styles);
+    if (argc == 3) {
+      size_t index = std::stoi(argv[2]);
+      data.tasks.erase(data.tasks.begin() + index - 1);
+      Show(data);
 
-    toFile(tasks, tasks_path);
+      toFile(data.tasks, tasks_path);
+    } else {
+      std::cerr << "Invalid parameters" << std::endl;
+    }
+  } else {
+    std::cerr << "Invalid parameters" << std::endl;
   }
 }
