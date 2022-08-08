@@ -68,11 +68,12 @@ void Show(Config config, int type) {
   table.SetPadding(2);
   table.SetLineSymbol(1);
 
+  size_t index = 0;
   for (auto& item : tasks) {
     if ((type == 0) || (type == 1 && item.status() == "DONE") ||
         (type == 2 && item.status() == "NOT DONE")) {
       auto style = styles["TASK-" + item.status()];
-      table += {{std::to_string(item.id()), style},
+      table += {{std::to_string(++index), style},
                 {item.task(), style},
                 {item.status(), style}};
     }

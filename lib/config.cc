@@ -18,21 +18,19 @@ Config FromFile(std::string config_file, std::string tasks_file) {
   std::vector<Task> tasks;
   std::map<std::string, Style> styles;
 
-  size_t index = 0;
   for (auto &item : tasks_json) {
     std::string task = item["task"];
     std::string status = item["status"];
 
-    auto style = config_json["tasks"][status];
+    auto style = config_json["styles"]["tasks"][status];
     Style text_style = Resolve(style);
 
-    tasks.push_back(Task(index + 1, task, status));
+    tasks.push_back(Task(task, status));
     styles["TASK-" + status] = text_style;
-    index += 1;
   }
 
-  Style intro_style = Resolve(config_json["intro"]);
-  Style header_style = Resolve(config_json["header"]);
+  Style intro_style = Resolve(config_json["styles"]["intro"]);
+  Style header_style = Resolve(config_json["styles"]["header"]);
   styles["intro"] = intro_style;
   styles["header"] = header_style;
   return {name, styles, tasks};

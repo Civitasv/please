@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
     if (argc == 3) {
       std::string item = argv[2];
       auto style = data.style["TASK-NOT DONE"];
-      data.tasks.push_back(Task(data.tasks.size() + 1, item, "NOT DONE"));
+      data.tasks.push_back(Task(item, "NOT DONE"));
       Show(data);
 
       toFile(data.tasks, tasks_path);
@@ -59,7 +59,7 @@ int main(int argc, char* argv[]) {
   } else if (command == "undone") {
     if (argc == 3) {
       size_t index = std::stoi(argv[2]);
-      data.tasks[index - 1].status("UNDONE");
+      data.tasks[index - 1].status("NOT DONE");
       Show(data);
 
       toFile(data.tasks, tasks_path);
