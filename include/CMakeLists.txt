@@ -1,0 +1,1 @@
+target_sources(libplease PUBLIC config.h)

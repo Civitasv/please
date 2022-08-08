@@ -1,41 +1,60 @@
 {
-    "tasks": [
-        {
-            "text": "A task",
-            "status": "DONE",
-            "icon": "✅"
-        }
-    ],
-    "style": {
-        "intro": {
-            "fg": "Color.BLACK",
-            "bg": "Color.WHITE",
+    "intro": {
+        "fg": {
+            "type": "Basic",
+            "value": 9
+        },
+        "bg": {
+            "type": "Basic",
+            "value": 49
+        },
+        "decorations": [
+            1, 3
+        ]
+    },
+    "header": {
+        "fg": {
+            "type": "Basic",
+            "value": 0
+        },
+        "bg": {
+            "type": "Basic",
+            "value": 0
+        },
+        "decorations": [
+            0
+        ]
+    },
+    "tasks": {
+        "DONE": {
+            "fg": {
+                "type": "Basic",
+                "value": 9
+            },
+            "bg": {
+                "type": "Color256",
+                "value": 0
+            },
             "decorations": [
-                ""
+                1, 3
             ]
         },
-        "header": {
-            "fg": "Color.BLACK",
-            "bg": "Color.WHITE",
-            "decorations": [
-                ""
-            ]
-        },
-        "task": {
-            "DONE": {
-                "fg": "Color.BLACK",
-                "bg": "Color.WHITE",
-                "decorations": [
-                    ""
+        "NOT DONE": {
+            "fg": {
+                "type": "Basic",
+                "value": 9
+            },
+            "bg": {
+                "type": "RGB",
+                "value": [
+                    1,
+                    2,
+                    3
                 ]
             },
-            "NOT DONE": {
-                "fg": "Color.BLACK",
-                "bg": "Color.WHITE",
-                "decorations": [
-                    ""
-                ]
-            }
+            "decorations": [
+                1, 3
+            ]
         }
     }
 }

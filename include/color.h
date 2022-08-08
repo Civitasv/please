@@ -30,7 +30,7 @@ enum class Color {
   WHITE = 15,
   GREY = 7,
 
-  RESET,
+  RESET = -1,
 };
 
 class Color256 {

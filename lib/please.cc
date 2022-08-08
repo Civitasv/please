@@ -1,4 +1,4 @@
-#include "../include/please.h"
+#include "include/please.h"
 
 #include <chrono>
 #include <ctime>
@@ -7,9 +7,10 @@
 #include <sstream>
 #include <vector>
 
-#include "../include/color.h"
-#include "../include/table.h"
-#include "../include/task.h"
+#include "include/color.h"
+#include "include/config.h"
+#include "include/table.h"
+#include "include/task.h"
 
 namespace please {
 static std::string CenterText(Text text) {
@@ -44,37 +45,38 @@ static std::string CurrentTime(const char* format) {
   return buf;
 }
 
-void Show() {
+/// @param type: 0: all, 1: only undone, 2: only done
+void Show(std::vector<Task> tasks, std::map<std::string, Style> styles,
+          int type) {
+  // 1. Print intro
   auto date_now = CurrentTime();
   auto user_name = "Civitasv";
   std::stringstream header_str;
 
   header_str << "Hello " << user_name << "! "
              << "It's " << date_now;
-  auto header = Text()
-                    .text(header_str.str())
-                    .style(Style().fg(Foreground::From(Color::WHITE)));
+  auto header = Text().text(header_str.str()).style(styles["intro"]);
 
   std::cout << '\n' << header << '\n' << '\n';
 
-  Tasks();
-}
-
-void Tasks() {
-  std::stringstream out;
-
-  Table table = {{Text{"ID", Style().fg(Foreground::From(Color::RED))},
-                  {Text{"TASK", Style().fg(Foreground::From(Color::RED))}},
-                  {Text{"STATUS", Style().fg(Foreground::From(Color::RED))}}}};
+  // 2. Print table
+  Table table = {{Text{"ID", styles["header"]},
+                  {Text{"TASK", styles["header"]}},
+                  {Text{"STATUS", styles["header"]}}}};
 
   table.SetPadding(2);
   table.SetLineSymbol(1);
 
-  auto style = Style().fg(Foreground::From(Color::RED));
-  Task a = Task(Text("A", style));
-  table += {{{"1", style}, a.task(), {a.status(), style}}};
+  for (auto& item : tasks) {
+    if ((type == 0) || (type == 1 && item.status() == "DONE") ||
+        (type == 2 && item.status() == "NOT DONE")) {
+      auto style = styles["TASK-" + item.status()];
+      table += {{std::to_string(item.id()), style},
+                {item.task(), style},
+                {item.status(), style}};
+    }
+  }
 
-  out << table;
-  std::cout << out.str();
+  std::cout << table;
 }
 }  // namespace please

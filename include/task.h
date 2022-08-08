@@ -2,18 +2,29 @@
 #define INCLUDE_PLEASE_TASK_H_
 
 #include <string>
+
 #include "text.h"
 
 namespace please {
 class Task {
  public:
-  Task(Text task, std::string status = "DONE") : task_(task), status_(status) {}
+  Task(size_t id, std::string task, std::string status)
+      : id_(id), task_(task), status_(status) {}
 
-  Text task() const { return task_; };
+  size_t id() const { return id_; };
+  std::string task() const { return task_; };
   std::string status() const { return status_; }
 
+  void status(std::string status) { status_ = status; }
+
+  friend std::ostream& operator<<(std::ostream& os, Task& val) {
+    os << val.id_ << " " << val.task_ << " " << val.status_ << '\n';
+    return os;
+  }
+
  private:
-  Text task_;
+  size_t id_;
+  std::string task_;
   std::string status_;
 };
 }  // namespace please
