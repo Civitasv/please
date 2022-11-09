@@ -1,5 +1,5 @@
-#ifndef INCLUDE_PLEASE_COLOR_H_
-#define INCLUDE_PLEASE_COLOR_H_
+#ifndef INCLUDE_ASCII_COLOR_H_
+#define INCLUDE_ASCII_COLOR_H_
 
 #include <iostream>
 #include <ostream>
@@ -13,50 +13,51 @@
 /// https://talyian.github.io/ansicolors/
 namespace please {
 enum class Color {
-  BLACK = 0,
-  DARK_GREY = 8,
-  RED = 9,
-  DARK_RED = 1,
-  GREEN = 10,
-  DARK_GREEN = 2,
-  YELLOW = 11,
-  DARK_YELLOW = 3,
-  BLUE = 12,
-  DARK_BLUE = 4,
-  PURPLE = 13,
-  DARK_PURPLE = 5,
-  CYAN = 14,
-  DARK_CYAN = 6,
-  WHITE = 15,
-  GREY = 7,
+  BLACK = 30,
+  RED = 31,
+  GREEN = 32,
+  YELLOW = 33,
+  BLUE = 34,
+  MAGENTA = 35,
+  CYAN = 36,
+  WHITE = 37,
+
+  BRIGHT_BLACK = 90,
+  BRIGHT_RED = 91,
+  BRIGHT_GREEN = 92,
+  BRIGHT_YELLOW = 93,
+  BRIGHT_BLUE = 94,
+  BRIGHT_MAGENTA = 95,
+  BRIGHT_CYAN = 96,
+  BRIGHT_WHITE = 97,
 
   RESET = -1,
 };
 
 class Color256 {
- public:
+public:
   Color256(int id) : id_(id) {}
   int id() { return id_; }
 
- private:
+private:
   int id_;
 };
 
 class RGB {
- public:
+public:
   RGB(int r, int g, int b) : r_(r), g_(g), b_(b) {}
   int r() { return r_; }
   int g() { return g_; }
   int b() { return b_; }
 
- private:
+private:
   int r_;
   int g_;
   int b_;
 };
 
 class Decoration {
- public:
+public:
   enum Attribute {
     RESET = 0,
     BOLD = 1,
@@ -80,29 +81,28 @@ class Decoration {
   };
 
   static Decoration From(Attribute attr) { return Decoration(attr); }
-  friend std::ostream& operator<<(std::ostream& os, const Decoration& val) {
+  friend std::ostream &operator<<(std::ostream &os, const Decoration &val) {
     os << "\x1b[" << static_cast<int>(val.attr_) << "m";
     return os;
   }
 
- private:
+private:
   Decoration(Attribute attr) : attr_(attr) {}
   Attribute attr_;
 };
 
 class Foreground {
- public:
-  template <typename T>
-  static Foreground From(T color) {
+public:
+  template <typename T> static Foreground From(T color) {
     return Foreground(Resolve(color));
   }
 
-  friend std::ostream& operator<<(std::ostream& os, const Foreground& val) {
+  friend std::ostream &operator<<(std::ostream &os, const Foreground &val) {
     os << val.color_;
     return os;
   }
 
- private:
+private:
   Foreground(std::string color) : color_(color) {}
   std::string color_;
 
@@ -111,7 +111,7 @@ class Foreground {
       return "\x1b[39m";
     }
     std::stringstream os;
-    os << "\x1b[38;5;" << static_cast<int>(color) << "m";
+    os << "\x1b[" << static_cast<int>(color) << "m";
     return os.str();
   }
 
@@ -130,18 +130,17 @@ class Foreground {
 };
 
 class Background {
- public:
-  template <typename T>
-  static Background From(T color) {
+public:
+  template <typename T> static Background From(T color) {
     return Background(Resolve(color));
   }
 
-  friend std::ostream& operator<<(std::ostream& os, const Background& val) {
+  friend std::ostream &operator<<(std::ostream &os, const Background &val) {
     os << val.color_;
     return os;
   }
 
- private:
+private:
   Background(std::string color) : color_(color) {}
   std::string color_;
 
@@ -150,7 +149,7 @@ class Background {
       return "\x1b[49m";
     }
     std::stringstream os;
-    os << "\x1b[48;5;" << static_cast<int>(color) << "m";
+    os << "\x1b[" << 10 + static_cast<int>(color) << "m";
     return os.str();
   }
 
@@ -167,5 +166,5 @@ class Background {
     return os.str();
   }
 };
-}  // namespace please
+} // namespace ascii
 #endif

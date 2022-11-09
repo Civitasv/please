@@ -128,8 +128,8 @@ class Table {
   OutlineStyle style = {
       Style().fg(Foreground::From(Color::CYAN)),
       Style().fg(Foreground::From(Color::RED)),
-      Style().fg(Foreground::From(Color::DARK_RED)),
-      Style().fg(Foreground::From(Color::DARK_RED)),
+      Style().fg(Foreground::From(Color::BRIGHT_RED)),
+      Style().fg(Foreground::From(Color::BRIGHT_RED)),
       Style().fg(Foreground::From(Color::RED)),
   };
 
